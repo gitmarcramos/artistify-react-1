@@ -37,7 +37,8 @@ router.get("/:id", async (req, res) => {
 //DELETE album from ID
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedAlbum = await albumModel.findByIdAndDelete(req.params.id).populate
+    const deletedAlbum = await albumModel.findByIdAndDelete(req.params.id).populate;
+    res.status(200).json(deletedAlbum);
   } catch (err) {
     console.error(err);
   }
