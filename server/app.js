@@ -43,6 +43,14 @@ app.use(
 // ------------------------------
 // SETUP the CORS rules here !!!
 // ------------------------------
+const corsOptions = {
+  origin: [process.env.CLIENT_URL],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
 
 
 //------------------------------------------
@@ -93,14 +101,14 @@ const usersRouter = require("./routes/users.js");
 
 // D.R.Y : you may want to complete the prefixes just below (ex /api/artists or /api/labels )
 
-app.use("/api", albumsRouter);
-app.use("/api", artistsRouter);
-app.use("/api", commentsRouter);
-app.use("/api", contactRouter);
-app.use("/api", labelRouter);
-app.use("/api", ratesRouter);
-app.use("/api", searchRouter);
-app.use("/api", stylesRouter);
-app.use("/api", usersRouter);
+app.use("/api/albums", albumsRouter);
+app.use("/api/artists", artistsRouter);
+app.use("/api/comments", commentsRouter);
+app.use("/api/contact", contactRouter);
+app.use("/api/label", labelRouter);
+app.use("/api/rates", ratesRouter);
+app.use("/api/search", searchRouter);
+app.use("/api/styles", stylesRouter);
+app.use("/api/users", usersRouter);
 
 module.exports = app;
