@@ -18,7 +18,7 @@ export default class Albums extends Component {
     const x = await handler.get("/api/albums");
     console.log(x);
     this.setState({
-      albums: x
+      albums: x.data
     })
   }
 
