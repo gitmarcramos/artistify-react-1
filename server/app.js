@@ -105,7 +105,7 @@ app.use("/api/albums", albumsRouter);
 app.use("/api/artists", artistsRouter);
 app.use("/api/comments", commentsRouter);
 app.use("/api/contact", contactRouter);
-app.use("/api/label", labelRouter);
+app.use("/api/labels", labelRouter);
 app.use("/api/rates", ratesRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/styles", stylesRouter);
