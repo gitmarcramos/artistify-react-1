@@ -5,8 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Table(
   data,
   cssList = "table generic",
-  cssItem = "item",
-  columns
+  columns,
+  handler
 ) {
   if (!data)
     return <p>Error : Component List expects an iterable "data" props</p>;
@@ -33,7 +33,7 @@ export default function Table(
                 <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} />
               </td>
               <td>
-                <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} />
+                <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} onClick={() => handler(d._id, "delete")} />
               </td>
             </tr>
           ))

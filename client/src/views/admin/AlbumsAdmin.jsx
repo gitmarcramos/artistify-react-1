@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import handler from "../../api/handler";
+import React, { Component } from "react";
+import APIHandler from "../../api/handler";
 import Table from "../../components/Table";
 // styles
 import "../../styles/card.css";
@@ -8,25 +8,47 @@ import "../../styles/icon-favorite.css";
 const columns = ["name", "style", "rates"];
 
 export default class AlbumsAdmin extends Component {
-    state = {
-        albums: []
-      };
-    
-      async componentDidMount() {
-        console.log(handler);
-        const x = await handler.get("/api/albums");
-        console.log(x);
+  state = {
+    albums: [],
+  };
+
+  fetchAlbums = async () => {
+    APIHandler.get("/api/albums")
+      .then(({ data }) => {
         this.setState({
-          albums: x.data
-        })
+          albums: data,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  handler = async (id, option) => {
+    try {
+      if (option === "delete") {
+        await APIHandler.delete(`api/albums/${id}`);
+        this.fetchAlbums();
       }
-    
-      render() {
-        return (
-          <div className="albums-list-wrap">
-            <h1>Admin albums+</h1>
-            <Table data={this.state.albums} columns={columns}></Table>
-          </div>
-        );
-      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  componentDidMount() {
+    this.fetchAlbums();
+  }
+
+  render() {
+    return (
+      <div className="albums-list-wrap">
+        <h1>Admin albums+</h1>
+        <Table
+          data={this.state.albums}
+          columns={columns}
+          handler={this.handler}
+        ></Table>
+      </div>
+    );
+  }
 }
