@@ -20,7 +20,9 @@ router.get("/", async (req, res) => {
 //GET artist by ID from database
 router.get("/:id", async (req, res) => {
   try {
-    const foundArtist = await artistModel.findById(req.params.id).populate("style");
+    const foundArtist = await artistModel
+      .findById(req.params.id)
+      .populate("style");
     res.status(200).json(foundArtist);
   } catch (err) {
     console.err(err);
@@ -30,7 +32,8 @@ router.get("/:id", async (req, res) => {
 //DELETE artist from database
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedArtist = await artistModel.findByIdAndDelete(req.params.id).populate("style");
+    const deletedArtist = await artistModel.findByIdAndDelete(req.params.id);
+    res.status(200).json(deletedArtist);
   } catch (err) {
     console.error(err);
   }
