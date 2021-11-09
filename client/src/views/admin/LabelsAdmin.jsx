@@ -1,47 +1,45 @@
-import React, { Component } from 'react'
-import APIHandler from "../../api/handler";
-import Table from "../../components/Table";
+import React from "react";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const columns = ["name", "country", "city"];
-
-export default class LabelsAdmin extends Component {
-    state = {
-        labels: []
-      };
-      
-      fetchLabels = async () => {
-        APIHandler.get("/api/labels")
-          .then(({ data }) => {
-            this.setState({
-              labels: data,
-            });
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      };
-
-      handler = async (id, option) => {
-        try {
-          if (option === "delete") {
-            await APIHandler.delete(`api/labels/${id}`);
-            this.fetchLabels();
-          }
-        } catch (err) {
-          console.error(err);
-        }
-      };    
-    
-      componentDidMount() {
-        this.fetchLabels();
-      }
-    
-      render() {
-        return (
-          <div className="labels-list-wrap">
-            <h1>Admin labels+</h1>
-            <Table data={this.state.labels} columns={columns} handler={this.handler}></Table>
-          </div>
-        );
-      }
+export default function LabelsAdmin({ data, deleteHandler }) {
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>name</th>
+          <th>country</th>
+          <th>city</th>
+          <th>edit</th>
+          <th>trash</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Boolean(data.length) ? (
+          data.map((d, i) => (
+            <tr key={i}>
+              <td>{d.name}</td>
+              <td>{d.country}</td>
+              <td>{d.city}</td>
+              <td>
+                <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} />
+              </td>
+              <td>
+                <FontAwesomeIcon
+                  className="is-clickable fa-lg"
+                  icon={faTrash}
+                  onClick={() => deleteHandler(d._id)}
+                />
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td>Sorry, no data yet ...</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
 }
