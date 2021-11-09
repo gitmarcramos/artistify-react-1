@@ -4,6 +4,7 @@ import Table from "../../components/Table";
 // styles
 import "../../styles/card.css";
 import "../../styles/icon-favorite.css";
+import AlbumTable from "./../../components/AlbumTable"
 
 const columns = ["artist.name", "release", "rates"];
 
@@ -47,6 +48,7 @@ export default class AlbumsAdmin extends Component {
           data={this.state.albums}
           columns={columns}
           handler={this.handler}
+          component={AlbumTable}
         ></Table>
       </div>
     );

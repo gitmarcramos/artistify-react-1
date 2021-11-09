@@ -9,10 +9,11 @@ import Album from "./views/Album";
 import Contact from "./views/Contact";
 import Dashboard from "./views/Dashboard";
 import NotFound from "./views/NotFound";
-import ArtistsAdmin from "./views/admin/ArtistsAdmin";
-import AlbumsAdmin from "./views/admin/AlbumsAdmin";
-import LabelsAdmin from "./views/admin/LabelsAdmin";
-import StylesAdmin from "./views/admin/StylesAdmin";
+// import ArtistsAdmin from "./views/admin/ArtistsAdmin";
+// import AlbumsAdmin from "./views/admin/AlbumsAdmin";
+// import LabelsAdmin from "./views/admin/LabelsAdmin";
+// import StylesAdmin from "./views/admin/StylesAdmin";
+import GeneralAdmin from "./views/admin/GeneralAdmin";
 // partials
 import HeaderMain from "./components/template/HeaderMain";
 import FooterMain from "./components/template/FooterMain";
@@ -41,10 +42,11 @@ export default function App() {
           <Route path="/albums/:id" component={Album} />
           <Route path="/contact-us" component={Contact} />
           <Route path="/dashboard" component={Dashboard} />
-          <Route exact path="/admin/artists" component={ArtistsAdmin}></Route>
+          {/* <Route exact path="/admin/artists" component={ArtistsAdmin}></Route>
           <Route exact path="/admin/albums" component={AlbumsAdmin}></Route>
           <Route exact path="/admin/labels" component={LabelsAdmin}></Route>
-          <Route exact path="/admin/styles" component={StylesAdmin}></Route>
+          <Route exact path="/admin/styles" component={StylesAdmin}></Route> */}
+          <Route path="/admin/:type(albums|labels|styles|artists)" component={GeneralAdmin}></Route>
 
           {/* handling 404 pages (if no matched route above this component triggers) */}
           <Route path="*" component={NotFound} />
