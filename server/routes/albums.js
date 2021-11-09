@@ -6,7 +6,35 @@ const { json } = require("express");
 const express = require("express");
 const router = new express.Router();
 const albumModel = require("../model/Album");
-const uploader = require("./../config/cloudinary");
+const fileUploader = require("./../config/cloudinary");
+
+// CREATE album
+router.post("/", fileUploader.single("picture"), (req, res, next) => {
+  // NEED cover, title, released date for the ALBUM informations
+  // + NEED name for LABEL infos
+  // + NEED name for ARTIST infos
+  // + NEED name for STYLE infos
+
+  // ALBUM collection
+  const {cover, title, releaseDate } = req.body;
+
+  // LABEL collection
+  let {labelName} = req.body
+
+  // ARTIST collection
+  let {artistName} = req.body
+
+  // STYLE collection
+  let {styleName} = req.body
+
+
+  //!CHANGE THIS
+  if(!labelName){
+    console.log("NEEEDS TO CHANGE THIS")
+  }
+
+
+});
 
 //GET albums from database
 router.get("/", async (req, res) => {
@@ -37,7 +65,8 @@ router.get("/:id", async (req, res) => {
 //DELETE album from ID
 router.delete("/:id", async (req, res) => {
   try {
-    const deletedAlbum = await albumModel.findByIdAndDelete(req.params.id).populate;
+    const deletedAlbum = await albumModel.findByIdAndDelete(req.params.id)
+      .populate;
     res.status(200).json(deletedAlbum);
   } catch (err) {
     console.error(err);
