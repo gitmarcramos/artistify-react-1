@@ -5,7 +5,7 @@ import Table from "../../components/Table";
 import "../../styles/card.css";
 import "../../styles/icon-favorite.css";
 
-const columns = ["name", "style", "rates"];
+const columns = ["artist.name", "release", "rates"];
 
 export default class AlbumsAdmin extends Component {
   state = {

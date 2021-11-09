@@ -3,19 +3,16 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Table(
-  data,
-  cssList = "table generic",
-  columns,
-  handler
+  props
 ) {
-  if (!data)
+  console.log(props.data)
+  if (!props.data)
     return <p>Error : Component List expects an iterable "data" props</p>;
-  console.log(columns);
   return (
-    <table className={cssList}>
+    <table>
       <thead>
         <tr>
-          {columns && columns.map((v, i) => (
+          {props.columns && props.columns.map((v, i) => (
             <th key={i}>{v}</th>
           ))}
           <th>edit</th>
@@ -23,17 +20,17 @@ export default function Table(
         </tr>
       </thead>
       <tbody>
-        {Boolean(data.length) ? (
-          data.map((d, i) => (
+        {Boolean(props.data.length) ? (
+          props.data.map((d, i) => (
             <tr key={i}>
-              {columns && columns.map((v, j) => (
+              {props.columns && props.columns.map((v, j) => (
                 <td key={j}>{d[v]}</td>
               ))}
               <td>
                 <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} />
               </td>
               <td>
-                <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} onClick={() => handler(d._id, "delete")} />
+                <FontAwesomeIcon className="is-clickable fa-lg" icon={faBars} onClick={() => props.handler(d._id, "delete")} />
               </td>
             </tr>
           ))
