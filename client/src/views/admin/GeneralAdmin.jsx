@@ -22,9 +22,9 @@ export default class GeneralAdmin extends React.Component {
     this.fetchData();
   }
 
-  componentDidUpdate() {
-    if (this.props.match.params.type !== this.state.data) {
-    //   this.fetchData();
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.type !== prevProps.match.params.type) {
+       this.fetchData();
     }
   }
 
