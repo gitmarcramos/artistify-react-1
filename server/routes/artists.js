@@ -62,7 +62,6 @@ router.patch("/:id", async (req, res, next) => {
   try {
     const foundArtistandUpdate = await artistModel
       .findByIdAndUpdate(req.params.id, req.body, { new: true })
-      .populate("style");
     res.status(200).json(foundArtistandUpdate);
   } catch (err) {
     console.log(error);

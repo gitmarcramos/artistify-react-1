@@ -6,37 +6,84 @@ const { json } = require("express");
 const express = require("express");
 const router = new express.Router();
 const albumModel = require("../model/Album");
+const artistModel = require("../model/Artist");
+const labelModel = require("../model/Label");
+const styleModel = require("../model/Style");
 const fileUploader = require("./../config/cloudinary");
 
 // CREATE album
-router.post("/", fileUploader.single("picture"), (req, res, next) => {
-  // NEED cover, title, released date for the ALBUM informations
-  // + NEED name for LABEL infos
-  // + NEED name for ARTIST infos
-  // + NEED name for STYLE infos
+router.post("/", fileUploader.single("picture"), async (req, res, next) => {
+  try {
+    // NEED cover, title, releaseDate for the ALBUM informations
+    // + NEED logo, name, street, country, city for LABEL infos
+    // + NEED name, description, isBand for ARTIST infos
+    // + NEED name, color, wikiURL for STYLE infos
 
-  // ALBUM collection
-  const {cover, title, releaseDate } = req.body;
+    // ALBUM collection
+    const { cover, title, releaseDate } = req.body;
 
-  // LABEL collection
-  let {labelName} = req.body
+    // LABEL collection
+    const { labelLogo, labelName, labelStreet, labelCountry, labelCity } =
+      req.body;
 
-  // ARTIST collection
-  let {artistName} = req.body
+    // ARTIST collection
+    const { artistName, artistDescription, artistIsBand } = req.body;
 
-  // STYLE collection
-  let {styleName} = req.body
+    // STYLE collection
+    const { styleName, styleColor, styleWikiURL } = req.body;
 
+    let { label } = req.body;
+    let { artist } = req.body;
+    let { style } = req.body;
 
-  //!CHANGE THIS
-  if(!labelName){
-    console.log("NEEEDS TO CHANGE THIS")
+    // if label is not created ---- BONUS -----
+    if (!labelName) {
+      const newLabel = await labelModel.create({
+        labelLogo,
+        labelName,
+        labelStreet,
+        labelCountry,
+        labelCity,
+      });
+      label = newLabel._id.toString();
+    }
+
+    // if artist is not created ---- BONUS -----
+    if (!artistName) {
+      const newArtist = await artistModel.create({
+        artistName,
+        artistDescription,
+        artistIsBand,
+      });
+      artist = newArtist._id.toString();
+    }
+
+    // if style is not created ---- BONUS -----
+    if (!styleName) {
+      const newStyle = await styleModel.create({
+        styleName,
+        styleColor,
+        styleWikiURL,
+      });
+      style = newStyle._id.toString();
+    }
+
+    //! This is the "only" road that should really work!
+    const newAlbum = await albumModel.create({
+      title,
+      releaseDate,
+      picture,
+      style,
+      label,
+      artist,
+    });
+    res.status(200).json(newAlbum);
+  } catch (err) {
+    console.log(err);
   }
-
-
 });
 
-//GET albums from database
+//READ (GET) albums from database
 router.get("/", async (req, res) => {
   try {
     const albums = await albumModel
@@ -49,7 +96,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//GET album from ID
+// READ (GET) album from ID
 router.get("/:id", async (req, res) => {
   try {
     const album = await albumModel
@@ -59,6 +106,16 @@ router.get("/:id", async (req, res) => {
     res.status(200).json(album);
   } catch (err) {
     console.error(err);
+  }
+});
+
+// UPDATE (PATCH) album from ID
+router.patch("/:id", async (req, res) => {
+  try {
+    const foundAlbumUpdate = await albumModel
+      .findByIdAndUpdate(req.params.id, req.body, { new: true })
+  } catch (err) {
+    console.log(err);
   }
 });
 
