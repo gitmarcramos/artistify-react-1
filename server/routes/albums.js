@@ -110,7 +110,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // UPDATE (PATCH) album from ID
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", fileUploader.single("picture"), async (req, res) => {
   try {
     const foundAlbumUpdate = await albumModel
       .findByIdAndUpdate(req.params.id, req.body, { new: true })
